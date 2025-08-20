@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>My Own Website</title>
   <style>
+    /* page styles */
     body {
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
@@ -14,25 +15,10 @@
       color: #333;
       overflow-x: hidden;
     }
-
-    /* Typing animation for welcome text */
     h1 {
       margin: 40px 0;
       font-size: 32px;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 4px solid #ff4b5c;
-      width: 0;
-      animation: typing 4s steps(30, end) forwards, blink 0.8s infinite;
     }
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink {
-      50% { border-color: transparent }
-    }
-
     .card {
       display: inline-block;
       background: white;
@@ -40,10 +26,8 @@
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       margin-bottom: 30px;
-      animation: fadeIn 2s ease-in-out;
+      animation: fadeIn 1s ease;
     }
-
-    /* Photo animation */
     .card img {
       width: 200px;
       height: 200px;
@@ -53,50 +37,209 @@
       border: 6px solid #fff;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       transition: transform 0.4s, box-shadow 0.4s;
-      animation: bounceIn 1.5s ease;
+      animation: bounceIn 1s ease;
     }
-    .card img:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    }
+    .card img:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+    .card p { margin-top: 10px; font-size: 22px; font-weight: bold; color: #ff4b5c; }
 
-    /* Name glow animation */
-    .card p {
-      margin-top: 10px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #ff4b5c;
-      animation: glow 2s infinite alternate;
-    }
-    @keyframes glow {
-      from { text-shadow: 0 0 5px #ff4b5c, 0 0 10px #ff6f91; }
-      to { text-shadow: 0 0 15px #ff1e38, 0 0 30px #ff6f91; }
-    }
-
-    /* Fade in card */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Bounce effect when photo loads */
+    @keyframes fadeIn { from {opacity:0; transform:translateY(12px)} to {opacity:1; transform:none} }
     @keyframes bounceIn {
-      0% { transform: scale(0.5); opacity: 0; }
-      60% { transform: scale(1.2); opacity: 1; }
-      100% { transform: scale(1); }
+      0% { transform: scale(0.7); opacity: 0 }
+      60% { transform: scale(1.05); opacity: 1 }
+      100% { transform: scale(1) }
+    }
+
+    /* LOCK overlay styles */
+    .lock-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,10,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: #fff;
+      padding: 20px;
+    }
+    .lock-box {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border-radius: 12px;
+      padding: 26px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(6px);
+    }
+    .lock-box h2 { margin: 0 0 8px; font-size: 20px; letter-spacing: 0.4px; }
+    .lock-box p { margin: 0 0 18px; color: #ffdede; font-size: 14px; }
+    .code-input {
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      margin-bottom: 16px;
+    }
+    .code-input input {
+      width: 56px;
+      height: 56px;
+      font-size: 22px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: #fff;
+    }
+    .btn {
+      display:inline-block;
+      padding:10px 16px;
+      border-radius:8px;
+      background:#ff4b5c;
+      color:#fff;
+      text-decoration:none;
+      font-weight:700;
+      cursor:pointer;
+      border:none;
+    }
+    .error { color:#ffcccc; margin-top:10px; min-height:18px; font-size:14px; }
+
+    /* small re-lock link */
+    .relock {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      font-size: 13px;
+      color: #fff;
+      background: rgba(0,0,0,0.25);
+      padding: 8px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.06);
     }
   </style>
 </head>
 <body>
+
   <h1>🌟 Welcome to my own website 🌟</h1>
 
   <div class="card">
-    <!-- Clicking this photo opens About Page -->
+    <!-- clicking this photo opens About Page (protected by lock) -->
     <a href="about.html">
       <img src="ansh.jpg" alt="Ansh Kumar">
     </a>
     <p>Ansh Kumar</p>
   </div>
 
+  <!-- Relock button (useful to lock again) -->
+  <a class="relock" id="relockBtn" href="#">Lock site 🔒</a>
+
+  <!-- LOCK overlay -->
+  <div class="lock-overlay" id="lockOverlay" aria-hidden="true" style="display:none;">
+    <div class="lock-box" role="dialog" aria-labelledby="lockTitle" aria-modal="true">
+      <h2 id="lockTitle">Enter 4-digit code to open</h2>
+      <p>Type the 4-digit code to view this site.</p>
+
+      <div class="code-input" id="codeInput">
+        <input inputmode="numeric" maxlength="1" pattern="[0-9]*" class="digit" />
+        <input inputmode="numeric" maxlength="1" pattern="[0-9]*" class="digit" />
+        <input inputmode="numeric" maxlength="1" pattern="[0-9]*" class="digit" />
+        <input inputmode="numeric" maxlength="1" pattern="[0-9]*" class="digit" />
+      </div>
+
+      <div>
+        <button id="unlockBtn" class="btn">Unlock</button>
+      </div>
+
+      <div class="error" id="errorMsg"></div>
+
+      <p style="margin-top:12px;font-size:12px;color:#ffdede">If you don't want to save unlock on this device, open in private/incognito.</p>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const CORRECT = '6010'; // correct 4-digit code
+      const overlay = document.getElementById('lockOverlay');
+      const digits = Array.from(document.querySelectorAll('.digit'));
+      const unlockBtn = document.getElementById('unlockBtn');
+      const errorMsg = document.getElementById('errorMsg');
+      const relockBtn = document.getElementById('relockBtn');
+
+      // Check localStorage for previous unlock
+      const unlocked = localStorage.getItem('site_unlocked_v1') === 'true';
+
+      function showOverlay() {
+        overlay.style.display = 'flex';
+        overlay.setAttribute('aria-hidden', 'false');
+        digits[0].focus();
+      }
+      function hideOverlay() {
+        overlay.style.display = 'none';
+        overlay.setAttribute('aria-hidden', 'true');
+      }
+
+      // If not unlocked, show overlay
+      if (!unlocked) {
+        showOverlay();
+      } else {
+        hideOverlay();
+      }
+
+      // Auto-advance when entering digits
+      digits.forEach((el, i) => {
+        el.addEventListener('input', (e) => {
+          el.value = el.value.replace(/[^0-9]/g, ''); // allow only digits
+          if (el.value && i < digits.length - 1) digits[i+1].focus();
+        });
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !el.value && i > 0) {
+            digits[i-1].focus();
+          }
+          if (e.key === 'Enter') attemptUnlock();
+        });
+      });
+
+      function getCode() {
+        return digits.map(d => d.value || '').join('');
+      }
+
+      function attemptUnlock() {
+        const code = getCode();
+        if (code.length !== 4) {
+          errorMsg.textContent = 'Please enter all 4 digits';
+          return;
+        }
+        if (code === CORRECT) {
+          // success
+          localStorage.setItem('site_unlocked_v1', 'true'); // remembers unlock
+          errorMsg.textContent = '';
+          hideOverlay();
+        } else {
+          errorMsg.textContent = 'Incorrect code — try again';
+          // shake effect
+          overlay.animate(
+            [{ transform: 'translateX(0)' }, { transform: 'translateX(-8px)' }, { transform: 'translateX(8px)' }, { transform: 'translateX(0)' }],
+            { duration: 300 }
+          );
+          digits.forEach(d => d.value = '');
+          digits[0].focus();
+        }
+      }
+
+      unlockBtn.addEventListener('click', attemptUnlock);
+
+      // allow clicking outside to focus first input
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) digits[0].focus();
+      });
+
+      // Relock button — clears the saved unlock and shows the overlay
+      relockBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        localStorage.removeItem('site_unlocked_v1');
+        digits.forEach(d=>d.value='');
+        showOverlay();
+      });
+    })();
+  </script>
 </body>
 </html>
