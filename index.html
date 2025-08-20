@@ -3,183 +3,293 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Own Website</title>
+  <title>Ansh Kumar Website</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
       margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
       color: #333;
-      overflow-x: hidden;
+      text-align: center;
+      transition: background 0.5s, color 0.5s;
     }
-
-    /* Lock Screen */
-    #lockScreen {
+    .dark-mode {
+      background: #121212;
+      color: #f9f9f9;
+    }
+    header {
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #ff6a00, #ee0979);
+      color: white;
+    }
+    #clock {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    .photo {
+      margin: 20px;
+      cursor: pointer;
+      transition: transform 0.3s;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .photo:hover {
+      transform: scale(1.05);
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .discord-btn {
+      background: #5865F2;
+      color: white;
+    }
+    .toggle-btn {
+      background: #333;
+      color: white;
+    }
+    #quote-box {
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 500px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      background: white;
+    }
+    .dark-mode #quote-box {
+      background: #1e1e1e;
+      border-color: #ccc;
+    }
+    #game {
+      margin: 40px auto;
+      width: 400px;
+      height: 200px;
+      border: 2px solid #333;
+      position: relative;
+      overflow: hidden;
+      background: #e0e0e0;
+    }
+    #box {
+      width: 30px;
+      height: 30px;
+      background: red;
+      position: absolute;
+      bottom: 0;
+      left: 50px;
+    }
+    #obstacle {
+      width: 30px;
+      height: 30px;
+      background: green;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      animation: move 2s linear infinite;
+    }
+    @keyframes move {
+      0% { right: 0; }
+      100% { right: 400px; }
+    }
+    #guestbook {
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 500px;
+      background: #fff;
+      border-radius: 10px;
+      border: 2px solid #333;
+    }
+    .dark-mode #guestbook {
+      background: #1e1e1e;
+      border-color: #ccc;
+    }
+    #messages {
+      margin-top: 10px;
+      text-align: left;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    #lock-screen {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
+      background: #111;
       color: white;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      z-index: 9999;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 1000;
     }
-    #lockScreen input {
+    #lock-screen input {
       padding: 10px;
       font-size: 18px;
-      border-radius: 8px;
+      margin-top: 10px;
+      border-radius: 5px;
       border: none;
       text-align: center;
-      margin-bottom: 10px;
-    }
-    #lockScreen button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      background: #ff4b5c;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    #lockScreen button:hover {
-      background: #ff1e38;
-    }
-
-    /* Typing animation for welcome text */
-    h1 {
-      margin: 40px 0;
-      font-size: 32px;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 4px solid #ff4b5c;
-      width: 0;
-      animation: typing 4s steps(30, end) forwards, blink 0.8s infinite;
-    }
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink {
-      50% { border-color: transparent }
-    }
-
-    .card {
-      display: inline-block;
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      margin-bottom: 30px;
-      animation: fadeIn 2s ease-in-out;
-    }
-
-    /* Photo animation */
-    .card img {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 6px solid #fff;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.4s, box-shadow 0.4s;
-      animation: bounceIn 1.5s ease;
-    }
-    .card img:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    }
-
-    /* Name glow animation */
-    .card p {
-      margin-top: 10px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #ff4b5c;
-      animation: glow 2s infinite alternate;
-    }
-    @keyframes glow {
-      from { text-shadow: 0 0 5px #ff4b5c, 0 0 10px #ff6f91; }
-      to { text-shadow: 0 0 15px #ff1e38, 0 0 30px #ff6f91; }
-    }
-
-    /* Fade in card */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Bounce effect when photo loads */
-    @keyframes bounceIn {
-      0% { transform: scale(0.5); opacity: 0; }
-      60% { transform: scale(1.2); opacity: 1; }
-      100% { transform: scale(1); }
-    }
-
-    /* Discord Button */
-    .discord-btn {
-      display: inline-block;
-      margin: 20px auto;
-      padding: 12px 24px;
-      font-size: 18px;
-      font-weight: bold;
-      text-decoration: none;
-      color: white;
-      background: #5865F2;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #5865F2;
-      animation: glowBtn 1.5s infinite alternate;
-      transition: transform 0.3s;
-    }
-    .discord-btn:hover {
-      transform: scale(1.1);
-      background: #4752C4;
-    }
-    @keyframes glowBtn {
-      from { box-shadow: 0 0 10px #5865F2, 0 0 20px #99AAB5; }
-      to { box-shadow: 0 0 20px #4752C4, 0 0 40px #99AAB5; }
     }
   </style>
 </head>
 <body>
-
-  <!-- Lock Screen -->
-  <div id="lockScreen">
-    <h2>🔒 Enter 4-Digit Code</h2>
-    <input type="password" id="codeInput" maxlength="4" placeholder="Enter code">
+  <div id="lock-screen">
+    <h2>Enter 4 Digit Code</h2>
+    <input type="password" id="unlock-code" maxlength="4" placeholder="****">
     <button onclick="unlock()">Unlock</button>
-    <p id="errorMsg" style="color:red; margin-top:10px;"></p>
   </div>
 
-  <!-- Website Content -->
-  <h1>🌟 Welcome to my own website 🌟</h1>
+  <header>
+    Welcome to Ansh Kumar's Website 🚀
+    <div id="clock"></div>
+  </header>
 
-  <div class="card">
-    <!-- Clicking this photo opens About Page -->
-    <a href="about.html">
-      <img src="ansh.jpg" alt="Ansh Kumar">
-    </a>
-    <p>Ansh Kumar</p>
+  <img src="photo.jpg" alt="Ansh Kumar" class="photo" width="200" onclick="launchConfetti()">
+
+  <div>
+    <button class="discord-btn" onclick="window.open('https://discord.gg/99Ha7GJJDc','_blank')">Join Discord</button>
+    <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
   </div>
 
-  <!-- Discord Button -->
-  <br>
-  <a href="https://discord.gg/99Ha7GJJDc" target="_blank" class="discord-btn">Join My Discord 🚀</a>
+  <audio id="bg-music" controls>
+    <source src="music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div id="quote-box">
+    <h3>Quote of the Day 💡</h3>
+    <p id="quote"></p>
+    <button onclick="newQuote()">New Quote</button>
+  </div>
+
+  <h2>🎮 Mini Jumping Box Game</h2>
+  <div id="game">
+    <div id="box"></div>
+    <div id="obstacle"></div>
+  </div>
+  <p>Press SPACE to jump!</p>
+
+  <div id="guestbook">
+    <h3>📝 Guestbook</h3>
+    <input type="text" id="guest-input" placeholder="Write a message">
+    <button onclick="addMessage()">Send</button>
+    <div id="messages"></div>
+  </div>
 
   <script>
+    // Lock screen
     function unlock() {
-      const code = document.getElementById("codeInput").value;
-      const error = document.getElementById("errorMsg");
+      let code = document.getElementById('unlock-code').value;
       if (code === "6010") {
-        document.getElementById("lockScreen").style.display = "none";
+        document.getElementById('lock-screen').style.display = 'none';
       } else {
-        error.textContent = "❌ Wrong code! Try again.";
+        alert("Wrong Code! Try again.");
       }
+    }
+
+    // Clock
+    function updateClock() {
+      let now = new Date();
+      document.getElementById('clock').innerText = now.toLocaleString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Dark mode
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    // Quotes
+    const quotes = [
+      "Believe in yourself and all that you are.",
+      "Every day is a new beginning.",
+      "Dream big and dare to fail.",
+      "Happiness depends upon ourselves.",
+      "The best time to start was yesterday. The next best is now.",
+      "Fun Fact: Honey never spoils!"
+    ];
+    function newQuote() {
+      let q = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('quote').innerText = q;
+    }
+    newQuote();
+
+    // Confetti
+    function launchConfetti() {
+      for (let i = 0; i < 30; i++) {
+        let confetti = document.createElement("div");
+        confetti.style.position = "fixed";
+        confetti.style.width = "10px";
+        confetti.style.height = "10px";
+        confetti.style.background = "hsl(" + Math.random()*360 + ",100%,50%)";
+        confetti.style.top = "-10px";
+        confetti.style.left = Math.random()*100 + "vw";
+        confetti.style.opacity = 1;
+        confetti.style.transition = "transform 3s, opacity 3s";
+        document.body.appendChild(confetti);
+        setTimeout(()=>{
+          confetti.style.transform = "translateY(100vh)";
+          confetti.style.opacity = 0;
+        },10);
+        setTimeout(()=>confetti.remove(),3000);
+      }
+    }
+
+    // Game
+    const box = document.getElementById("box");
+    const obstacle = document.getElementById("obstacle");
+    let jumping = false;
+    document.body.onkeyup = function(e){
+      if(e.code == "Space" && !jumping){
+        jumping = true;
+        let jumpHeight = 0;
+        let up = setInterval(()=>{
+          if(jumpHeight >= 80){
+            clearInterval(up);
+            let down = setInterval(()=>{
+              if(jumpHeight <= 0){
+                clearInterval(down);
+                jumping = false;
+              }
+              jumpHeight -= 5;
+              box.style.bottom = jumpHeight + "px";
+            },20);
+          }
+          jumpHeight += 5;
+          box.style.bottom = jumpHeight + "px";
+        },20);
+      }
+    }
+
+    setInterval(()=>{
+      let boxRect = box.getBoundingClientRect();
+      let obsRect = obstacle.getBoundingClientRect();
+      if(boxRect.right > obsRect.left && boxRect.left < obsRect.right && boxRect.bottom > obsRect.top){
+        alert("Game Over! Refresh to play again.");
+      }
+    },100);
+
+    // Guestbook
+    function addMessage(){
+      let input = document.getElementById('guest-input');
+      if(input.value.trim() === "") return;
+      let messages = document.getElementById('messages');
+      let msg = document.createElement('p');
+      msg.innerText = input.value;
+      messages.appendChild(msg);
+      input.value = "";
+      // Save to localStorage
+      localStorage.setItem('guestbook', messages.innerHTML);
+    }
+    // Load saved messages
+    window.onload = ()=>{
+      let saved = localStorage.getItem('guestbook');
+      if(saved) document.getElementById('messages').innerHTML = saved;
     }
   </script>
 </body>
